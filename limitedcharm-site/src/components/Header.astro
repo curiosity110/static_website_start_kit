@@ -31,17 +31,17 @@ const suffix = path.replace(new RegExp(`^/${lang}`), '') || '/';
 
     <div class="flex items-center gap-2">
       <!-- Language switcher dropdown -->
-      <div class="relative" id="lang-switcher">
-        <button type="button" class="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2" aria-haspopup="true" aria-expanded="false">
+      <details class="relative">
+        <summary class="list-none p-2 min-w-[44px] min-h-[44px] flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2" aria-haspopup="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-6 w-6"><circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></svg>
           <span class="sr-only">Language</span>
-        </button>
-        <ul class="absolute right-0 mt-2 hidden bg-white shadow-lg rounded-md" role="menu">
+        </summary>
+        <ul class="absolute right-0 mt-2 bg-white shadow-lg rounded-md" role="menu">
           {SUPPORTED_LANGUAGES.map((l) => (
             <li><a href={`/${l}${suffix}`} class="block px-4 py-2 hover:bg-gray-100 focus:bg-gray-100" role="menuitem">{l.toUpperCase()}</a></li>
           ))}
         </ul>
-      </div>
+      </details>
 
       <!-- Mobile menu -->
       <details class="md:hidden">
@@ -65,32 +65,4 @@ const suffix = path.replace(new RegExp(`^/${lang}`), '') || '/';
       </details>
     </div>
   </div>
-</header>
-
-<script is:inline>
-  const switcher = document.getElementById('lang-switcher');
-  const button = switcher?.querySelector('button');
-  const menu = switcher?.querySelector('ul');
-  function closeMenu() {
-    menu?.classList.add('hidden');
-    button?.setAttribute('aria-expanded', 'false');
-  }
-  button?.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const hidden = menu?.classList.contains('hidden');
-    if (hidden) {
-      menu?.classList.remove('hidden');
-      button?.setAttribute('aria-expanded', 'true');
-    } else {
-      closeMenu();
-    }
-  });
-  menu?.querySelectorAll('a').forEach((a) => {
-    a.addEventListener('click', () => closeMenu());
-  });
-  document.addEventListener('click', (e) => {
-    if (!switcher?.contains(e.target)) {
-      closeMenu();
-    }
-  });
-</script>
+ </header>

@@ -1,19 +1,21 @@
 ---
 import { getDictionary } from '../i18n/dict';
 import type { Lang } from '../i18n/config';
+import { Image } from 'astro:assets';
+import fallbackImg from '../assets/fallback1.png';
 
 interface Props {
   lang: Lang;
-  image?: string;
+  image?: unknown;
 }
 
 const dict = getDictionary(Astro.props.lang) ?? {};
 const hero = dict?.hero ?? { title: '', subtitle: '', cta: '' };
-const imageSrc = Astro.props.image ?? '/assets/fallback1.png';
+const imageSrc = Astro.props.image ?? fallbackImg;
 ---
 <section class="py-12 text-center">
   <div class="flex flex-col items-center gap-6">
-      <img src={imageSrc} alt={hero?.title ?? ''} width="960" height="400" loading="lazy" class="rounded" />
+      <Image src={imageSrc} alt={hero?.title ?? ''} width={960} height={400} format={['avif','webp']} sizes="(max-width: 960px) 100vw, 960px" class="rounded" />
     <h1 class="text-4xl font-bold">{hero?.title ?? ''}</h1>
     <p class="max-w-2xl text-lg">{hero?.subtitle ?? ''}</p>
     <a href={`/${Astro.props.lang}/products`} class="mt-4 px-6 py-3 bg-blue-600 text-white rounded">{hero?.cta ?? 'More'}</a>
