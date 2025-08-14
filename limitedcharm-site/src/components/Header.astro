@@ -1,0 +1,18 @@
+---
+import { getDictionary } from '../i18n/dict';
+import type { Lang } from '../i18n/config';
+
+interface Props { lang: Lang; }
+const { nav } = getDictionary(Astro.props.lang);
+---
+<header class="p-4">
+  <nav>
+    <ul class="flex gap-4">
+      <li><a href={`/${Astro.props.lang}/`}>{nav.home}</a></li>
+      <li><a href={`/${Astro.props.lang}/products`}>{nav.products}</a></li>
+      <li><a href={`/${Astro.props.lang}/about`}>{nav.about}</a></li>
+      <li><a href={`/${Astro.props.lang}/faq`}>{nav.faq}</a></li>
+      <li><a href={`/${Astro.props.lang}/contact`}>{nav.contact}</a></li>
+    </ul>
+  </nav>
+</header>

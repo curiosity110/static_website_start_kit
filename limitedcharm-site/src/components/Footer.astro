@@ -1,0 +1,18 @@
+---
+import { getDictionary } from '../i18n/dict';
+import type { Lang } from '../i18n/config';
+
+interface Props { lang: Lang; }
+const { legal } = getDictionary(Astro.props.lang);
+---
+<footer class="p-4">
+  <nav>
+    <ul class="flex gap-4">
+      <li><a href={`/${Astro.props.lang}/privacy`}>{legal.privacy}</a></li>
+      <li><a href={`/${Astro.props.lang}/terms`}>{legal.terms}</a></li>
+      <li><a href={`/${Astro.props.lang}/shipping`}>{legal.shipping}</a></li>
+      <li><a href={`/${Astro.props.lang}/disclaimer`}>{legal.disclaimer}</a></li>
+      <li><a href={`/${Astro.props.lang}/complaint`}>{legal.complaint}</a></li>
+    </ul>
+  </nav>
+</footer>
