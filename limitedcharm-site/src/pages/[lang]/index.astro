@@ -8,6 +8,11 @@ import { SUPPORTED_LANGUAGES, DEFAULT_LANG, isLang } from '../../i18n/config';
 import product1 from '../../content/products/product-1.mdx';
 import product2 from '../../content/products/product-2.mdx';
 
+// Import local images from assets
+import productImg1 from '../../assets/product1.png';
+import productImg2 from '../../assets/product2.png';
+import heroImage from '../../assets/product1.png'; // use any image you like for hero
+
 export function getStaticPaths() {
   return SUPPORTED_LANGUAGES.map((lang) => ({ params: { lang } }));
 }
@@ -19,16 +24,25 @@ if (!isLang(lang)) {
 }
 
 const dict = getDictionary(lang);
-const products = [product1.frontmatter, product2.frontmatter];
+
+const rawProducts = [product1?.frontmatter, product2?.frontmatter].filter(Boolean);
+
+// Ensure products always have an image
+const products = rawProducts.map((p, i) => ({
+  ...p,
+  image: p.image ? new URL(p.image, import.meta.url).pathname : (i === 0 ? fallback1 : fallback2)
+}));
 const stats = [
   { label: dict.stats.years, value: '5+' },
   { label: dict.stats.orders, value: '1500+' },
   { label: dict.stats.satisfaction, value: '98%' }
 ];
-const heroImage = 'https://via.placeholder.com/960x400';
 ---
+
 <BaseLayout lang={lang} title="Home" description="">
   <Hero lang={lang} image={heroImage} />
+
+  <!-- About/Benefits Section -->
   <section class="py-12">
     <div class="max-w-4xl mx-auto text-center">
       <h2 class="text-2xl font-bold mb-6">{dict.about.heading}</h2>
@@ -37,7 +51,9 @@ const heroImage = 'https://via.placeholder.com/960x400';
       </ul>
     </div>
   </section>
-  <section class="py-12">
+
+  <!-- Featured Products Section -->
+  <section id="products" class="py-12">
     <h2 class="text-2xl text-center font-bold mb-6">{dict.nav.products}</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
       {products.map((p) => (
@@ -45,5 +61,7 @@ const heroImage = 'https://via.placeholder.com/960x400';
       ))}
     </div>
   </section>
+
+  <!-- Stats Section -->
   <Stats stats={stats} />
 </BaseLayout>
