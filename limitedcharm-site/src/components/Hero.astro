@@ -1,7 +1,6 @@
 ---
 import { getDictionary } from '../i18n/dict';
 import type { Lang } from '../i18n/config';
-import { Image } from '@astrojs/image/components';
 
 interface Props {
   lang: Lang;
@@ -14,7 +13,7 @@ const imageSrc = Astro.props.image ?? '/assets/fallback1.png';
 ---
 <section class="py-12 text-center">
   <div class="flex flex-col items-center gap-6">
-    <Image src={imageSrc} alt={hero?.title ?? ''} width={960} height={400} formats={["avif", "webp", "png"]} sizes="(max-width: 768px) 100vw, 960px" loading="lazy" class="rounded" />
+      <img src={imageSrc} alt={hero?.title ?? ''} width="960" height="400" loading="lazy" class="rounded" />
     <h1 class="text-4xl font-bold">{hero?.title ?? ''}</h1>
     <p class="max-w-2xl text-lg">{hero?.subtitle ?? ''}</p>
     <a href={`/${Astro.props.lang}/products`} class="mt-4 px-6 py-3 bg-blue-600 text-white rounded">{hero?.cta ?? 'More'}</a>
