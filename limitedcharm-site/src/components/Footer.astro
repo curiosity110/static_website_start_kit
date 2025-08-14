@@ -3,16 +3,34 @@ import { getDictionary } from '../i18n/dict';
 import type { Lang } from '../i18n/config';
 
 interface Props { lang: Lang; }
-const { legal } = getDictionary(Astro.props.lang);
+const lang = Astro.props.lang;
+const { legal } = getDictionary(lang);
 ---
-<footer class="p-4">
-  <nav>
-    <ul class="flex gap-4">
-      <li><a href={`/${Astro.props.lang}/privacy`}>{legal.privacy}</a></li>
-      <li><a href={`/${Astro.props.lang}/terms`}>{legal.terms}</a></li>
-      <li><a href={`/${Astro.props.lang}/shipping`}>{legal.shipping}</a></li>
-      <li><a href={`/${Astro.props.lang}/disclaimer`}>{legal.disclaimer}</a></li>
-      <li><a href={`/${Astro.props.lang}/complaint`}>{legal.complaint}</a></li>
-    </ul>
-  </nav>
+<footer class="border-t mt-8">
+  <div class="mx-auto max-w-screen-xl p-4">
+    <div class="mb-4">
+      <address class="not-italic">
+        123 Example St<br />
+        Skopje, MK<br />
+        <a href="tel:+1234567890" class="block min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">+1 234 567 890</a>
+        <a href="mailto:info@example.com" class="block min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">info@example.com</a>
+      </address>
+    </div>
+    <nav aria-label="Legal">
+      <ul class="mb-4 flex flex-wrap gap-4">
+        <li><a href={`/${lang}/privacy`} class="block px-2 py-1 min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{legal.privacy}</a></li>
+        <li><a href={`/${lang}/terms`} class="block px-2 py-1 min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{legal.terms}</a></li>
+        <li><a href={`/${lang}/shipping`} class="block px-2 py-1 min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{legal.shipping}</a></li>
+        <li><a href={`/${lang}/disclaimer`} class="block px-2 py-1 min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{legal.disclaimer}</a></li>
+        <li><a href={`/${lang}/complaint`} class="block px-2 py-1 min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{legal.complaint}</a></li>
+      </ul>
+    </nav>
+    <div>
+      <ul class="flex gap-4">
+        <li><a href="#" class="block px-2 py-1 min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">Facebook</a></li>
+        <li><a href="#" class="block px-2 py-1 min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">Twitter</a></li>
+        <li><a href="#" class="block px-2 py-1 min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">Instagram</a></li>
+      </ul>
+    </div>
+  </div>
 </footer>
