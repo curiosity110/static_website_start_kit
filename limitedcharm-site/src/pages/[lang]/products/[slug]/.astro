@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { SUPPORTED_LANGUAGES, DEFAULT_LANG, isLang } from '../../../i18n/config';
+import product1 from '../../../content/products/product-1.mdx';
+import product2 from '../../../content/products/product-2.mdx';
+
+export function getStaticPaths() {
+  const products = [product1.frontmatter, product2.frontmatter];
+  return SUPPORTED_LANGUAGES.flatMap((lang) =>
+    products.map((p) => ({ params: { lang, slug: p.slug } }))
+  );
+}
+
+const { lang, slug } = Astro.params;
+
+if (!isLang(lang)) {
+  throw Astro.redirect(`/${DEFAULT_LANG}/products`);
+}
+
+const product = [product1.frontmatter, product2.frontmatter].find((p) => p.slug === slug);
+if (!product) {
+  throw Astro.redirect(`/${lang}/products`);
+}
+---
+<BaseLayout lang={lang} title={product.title} description="">
+  <section class="p-8 text-center">
+    <h1 class="text-2xl font-bold mb-4">{product.title}</h1>
+    <p>{product.subtitle}</p>
+  </section>
+</BaseLayout>

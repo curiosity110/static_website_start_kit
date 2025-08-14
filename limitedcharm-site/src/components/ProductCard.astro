@@ -1,13 +1,39 @@
 ---
+import { Image } from '@astrojs/image/components';
+import type { Lang } from '../i18n/config';
+
 interface Props {
   title: string;
   description: string;
   image?: string;
+  short: string;
+  price: string;
+  price_old?: string;
+  image: string;
+  slug: string;
+  lang: Lang;
 }
 const { title, description, image } = Astro.props;
+
+const { title, short, price, price_old, image, slug, lang } = Astro.props;
 ---
 <article class="p-4 border">
   {image && <img src={image} alt={title} class="mb-2" />}
   <h3 class="font-semibold">{title}</h3>
   <p>{description}</p>
+</article>
+<article class="border p-4 flex flex-col">
+  <Image src={image} alt={title} width={300} height={300} formats={['avif','webp','png']} loading="lazy" class="mb-4 rounded" />
+  <h3 class="text-xl font-semibold mb-2">{title}</h3>
+  <p class="mb-4">{short}</p>
+  <div class="mt-auto">
+    <p class="text-lg font-bold">
+      {price_old && <span class="line-through mr-2 text-gray-500">{price_old}</span>}
+      <span>{price}</span>
+    </p>
+    <div class="flex gap-2 mt-4">
+      <a href="#contact" class="px-4 py-2 bg-green-600 text-white rounded">Order</a>
+      <a href={`/${lang}/products/${slug}`} class="px-4 py-2 border rounded">More info</a>
+    </div>
+  </div>
 </article>
