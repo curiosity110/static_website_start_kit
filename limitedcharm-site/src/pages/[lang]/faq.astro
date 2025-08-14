@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import FAQ from '../../components/FAQ.astro';
+import { getDictionary } from '../../i18n/dict';
 import { SUPPORTED_LANGUAGES, DEFAULT_LANG, isLang } from '../../i18n/config';
 
 export function getStaticPaths() {
@@ -11,6 +13,20 @@ const { lang } = Astro.params;
 if (!isLang(lang)) {
   throw Astro.redirect(`/${DEFAULT_LANG}/`);
 }
+
+const dict = getDictionary(lang) ?? {};
+const title = dict?.faq?.heading ?? 'FAQ';
+const items = dict?.faq?.items ?? [
+  { question: 'Question 1?', answer: 'Answer 1.' },
+  { question: 'Question 2?', answer: 'Answer 2.' },
+  { question: 'Question 3?', answer: 'Answer 3.' },
+  { question: 'Question 4?', answer: 'Answer 4.' },
+  { question: 'Question 5?', answer: 'Answer 5.' },
+  { question: 'Question 6?', answer: 'Answer 6.' }
+];
 ---
-<BaseLayout lang={lang} title="Faq" description="">
+<BaseLayout lang={lang} title={title} description="">
+  <h1 class="text-2xl font-bold mb-6">{title}</h1>
+  <FAQ items={items} />
 </BaseLayout>
+

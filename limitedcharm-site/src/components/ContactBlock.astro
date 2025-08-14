@@ -2,11 +2,41 @@
 import { getDictionary } from '../i18n/dict';
 import type { Lang } from '../i18n/config';
 
-interface Props { lang: Lang; }
+interface Props { lang: Lang }
 const dict = getDictionary(Astro.props.lang) ?? {};
-const contact = dict?.contact ?? { heading: '' };
+const contact = dict?.contact ?? {
+  heading: 'Contact',
+  address: '123 Main St, City',
+  phone: '+1 234 567 890',
+  email: 'info@example.com'
+};
 ---
-<section class="p-8">
-<h2 class="text-xl font-bold">{contact?.heading ?? ''}</h2>
-  <p>email@example.com</p>
+<section class="p-8" aria-labelledby="contact-heading">
+  <h2 id="contact-heading" class="text-xl font-bold mb-4">{contact?.heading ?? 'Contact'}</h2>
+  <address class="not-italic mb-4">
+    {contact?.address ?? '123 Main St, City'}
+    <br />
+    <a href={`tel:${contact?.phone ?? ''}`} class="block min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">
+      {contact?.phone ?? '+1 234 567 890'}
+    </a>
+    <a href={`mailto:${contact?.email ?? 'info@example.com'}`} class="block min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">
+      {contact?.email ?? 'info@example.com'}
+    </a>
+  </address>
+  <form action="https://formspree.io/f/placeholder" method="POST" class="space-y-4">
+    <div>
+      <label for="name" class="block mb-1">Name</label>
+      <input id="name" name="name" type="text" required class="w-full border p-2" />
+    </div>
+    <div>
+      <label for="email" class="block mb-1">Email</label>
+      <input id="email" name="email" type="email" required class="w-full border p-2" />
+    </div>
+    <div>
+      <label for="message" class="block mb-1">Message</label>
+      <textarea id="message" name="message" required class="w-full border p-2"></textarea>
+    </div>
+    <button type="submit" class="px-4 py-2 border">Send</button>
+  </form>
 </section>
+

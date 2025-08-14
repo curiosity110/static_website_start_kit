@@ -5,8 +5,8 @@ export type SectionDict = {
   hero: { title: string; subtitle: string; cta: string };
   about: { heading: string; benefits: string[] };
   stats: { years: string; orders: string; satisfaction: string };
-  faq: { heading: string };
-  contact: { heading: string };
+  faq: { heading: string; items?: { question: string; answer: string }[] };
+  contact: { heading: string; address: string; phone: string; email: string };
   legal: { privacy: string; terms: string; shipping: string; disclaimer: string; complaint: string };
 };
 
@@ -24,7 +24,12 @@ export const dictionaries: Record<Lang, SectionDict> = {
     },
     stats: { years: 'Години на пазарот', orders: 'Извршени нарачки', satisfaction: 'Задоволство на клиенти' },
     faq: { heading: 'ЧПП' },
-    contact: { heading: 'Контакт' },
+    contact: {
+      heading: 'Контакт',
+      address: '123 Main St, City',
+      phone: '+1 234 567 890',
+      email: 'info@example.com'
+    },
     legal: { privacy: 'Приватност', terms: 'Услови', shipping: 'Испорака', disclaimer: 'Одговорност', complaint: 'Претставка' }
   },
   en: {
@@ -40,7 +45,12 @@ export const dictionaries: Record<Lang, SectionDict> = {
     },
     stats: { years: 'Years on market', orders: 'Orders processed', satisfaction: 'Customer satisfaction' },
     faq: { heading: 'FAQ' },
-    contact: { heading: 'Contact' },
+    contact: {
+      heading: 'Contact',
+      address: '123 Main St, City',
+      phone: '+1 234 567 890',
+      email: 'info@example.com'
+    },
     legal: { privacy: 'Privacy', terms: 'Terms', shipping: 'Shipping', disclaimer: 'Disclaimer', complaint: 'Complaint' }
   },
   sq: {
@@ -56,7 +66,12 @@ export const dictionaries: Record<Lang, SectionDict> = {
     },
     stats: { years: 'Vite në treg', orders: 'Porosi të kryera', satisfaction: 'Kënaqësi e klientëve' },
     faq: { heading: 'FAQ' },
-    contact: { heading: 'Kontakt' },
+    contact: {
+      heading: 'Kontakt',
+      address: '123 Main St, City',
+      phone: '+1 234 567 890',
+      email: 'info@example.com'
+    },
     legal: { privacy: 'Privatësia', terms: 'Kushtet', shipping: 'Dërgesa', disclaimer: 'Përgënjeshtrim', complaint: 'Ankesë' }
   }
 };
