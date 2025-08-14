@@ -3,9 +3,10 @@ import { getDictionary } from '../i18n/dict';
 import type { Lang } from '../i18n/config';
 
 interface Props { lang: Lang; }
-const { contact } = getDictionary(Astro.props.lang);
+const dict = getDictionary(Astro.props.lang) ?? {};
+const contact = dict?.contact ?? { heading: '' };
 ---
 <section class="p-8">
-  <h2 class="text-xl font-bold">{contact.heading}</h2>
+<h2 class="text-xl font-bold">{contact?.heading ?? ''}</h2>
   <p>email@example.com</p>
 </section>

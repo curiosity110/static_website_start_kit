@@ -1,6 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductCard from '../../components/ProductCard.astro';
 import { SUPPORTED_LANGUAGES, DEFAULT_LANG, isLang } from '../../i18n/config';
+import product1 from '../../content/products/product-1.mdx';
+import product2 from '../../content/products/product-2.mdx';
 
 export function getStaticPaths() {
   return SUPPORTED_LANGUAGES.map((lang) => ({ params: { lang } }));
@@ -11,6 +14,22 @@ const { lang } = Astro.params;
 if (!isLang(lang)) {
   throw Astro.redirect(`/${DEFAULT_LANG}/`);
 }
+
+const rawProducts = [product1, product2].filter(Boolean);
+const products = rawProducts.map((p, i) => ({
+  title: p?.frontmatter?.title ?? 'Untitled Product',
+  short: p?.frontmatter?.short ?? 'No description available.',
+  price: p?.frontmatter?.price ?? 'N/A',
+  image: p?.frontmatter?.image ? p.frontmatter.image : `/assets/fallback${i + 1}.png`,
+  slug: p?.frontmatter?.slug ?? `product-${i + 1}`
+}));
 ---
 <BaseLayout lang={lang} title="Products" description="">
+  <section class="py-12">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {products.filter(Boolean).map((p) => (
+        <ProductCard {...p} lang={lang} />
+      ))}
+    </div>
+  </section>
 </BaseLayout>

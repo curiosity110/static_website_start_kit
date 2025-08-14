@@ -4,7 +4,8 @@ import type { Lang } from '../i18n/config';
 
 interface Props { lang: Lang; }
 const lang = Astro.props.lang;
-const { legal } = getDictionary(lang);
+const dict = getDictionary(lang) ?? {};
+const legal = dict?.legal ?? {};
 ---
 <footer class="border-t mt-8">
   <div class="mx-auto max-w-screen-xl p-4">
@@ -18,11 +19,11 @@ const { legal } = getDictionary(lang);
     </div>
     <nav aria-label="Legal">
       <ul class="mb-4 flex flex-wrap gap-4">
-        <li><a href={`/${lang}/privacy`} class="block px-2 py-1 min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{legal.privacy}</a></li>
-        <li><a href={`/${lang}/terms`} class="block px-2 py-1 min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{legal.terms}</a></li>
-        <li><a href={`/${lang}/shipping`} class="block px-2 py-1 min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{legal.shipping}</a></li>
-        <li><a href={`/${lang}/disclaimer`} class="block px-2 py-1 min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{legal.disclaimer}</a></li>
-        <li><a href={`/${lang}/complaint`} class="block px-2 py-1 min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{legal.complaint}</a></li>
+        <li><a href={`/${lang}/privacy`} class="block px-2 py-1 min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{legal?.privacy ?? 'Privacy'}</a></li>
+        <li><a href={`/${lang}/terms`} class="block px-2 py-1 min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{legal?.terms ?? 'Terms'}</a></li>
+        <li><a href={`/${lang}/shipping`} class="block px-2 py-1 min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{legal?.shipping ?? 'Shipping'}</a></li>
+        <li><a href={`/${lang}/disclaimer`} class="block px-2 py-1 min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{legal?.disclaimer ?? 'Disclaimer'}</a></li>
+        <li><a href={`/${lang}/complaint`} class="block px-2 py-1 min-h-[44px] min-w-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{legal?.complaint ?? 'Complaint'}</a></li>
       </ul>
     </nav>
     <div>

@@ -4,11 +4,12 @@ import { SUPPORTED_LANGUAGES, DEFAULT_LANG, isLang } from '../../../i18n/config'
 import product1 from '../../../content/products/product-1.mdx';
 import product2 from '../../../content/products/product-2.mdx';
 
-const allProducts = [product1, product2];
+const allProducts = [product1, product2].filter(Boolean);
 
 export function getStaticPaths() {
   const paths = [];
   for (const prod of allProducts) {
+    if (!prod?.frontmatter?.slug) continue;
     for (const lang of SUPPORTED_LANGUAGES) {
       paths.push({
         params: { lang, slug: prod.frontmatter.slug },
@@ -24,15 +25,14 @@ if (!isLang(lang)) {
   throw Astro.redirect(`/${DEFAULT_LANG}/`);
 }
 
-const { product, Content } = Astro.props;
+const { product = {}, Content } = Astro.props;
 ---
-<BaseLayout lang={lang} title={product.title} description={product.description}>
+<BaseLayout lang={lang} title={product?.title ?? ''} description={product?.description ?? ''}>
   <article class="max-w-3xl mx-auto py-12">
-    <img src={product.image} alt={product.title} width="600" height="600" class="mb-4 rounded" />
-    <h1 class="text-3xl font-bold mb-4">{product.title}</h1>
-    <p class="mb-4">{product.short}</p>
-    {/** Render MDX content */}
-    <Content />
+    <img src={product?.image ?? '/assets/fallback1.png'} alt={product?.title ?? ''} width="600" height="600" class="mb-4 rounded" />
+    <h1 class="text-3xl font-bold mb-4">{product?.title ?? ''}</h1>
+    <p class="mb-4">{product?.short ?? ''}</p>
+    {Content ? <Content /> : null}
   </article>
 </BaseLayout>
 

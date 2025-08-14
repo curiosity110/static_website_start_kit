@@ -1,15 +1,15 @@
 ---
 interface Props {
-  stats: { label: string; value: string }[];
+  stats?: { label?: string; value?: string }[];
 }
-const { stats } = Astro.props;
+const stats = (Astro.props.stats as Props['stats'])?.filter(Boolean) ?? [];
 ---
 <section class="py-12 bg-gray-100">
   <ul class="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
     {stats.map((s) => (
       <li>
-        <p class="text-3xl font-bold">{s.value}</p>
-        <p>{s.label}</p>
+        <p class="text-3xl font-bold">{s?.value ?? ''}</p>
+        <p>{s?.label ?? ''}</p>
       </li>
     ))}
   </ul>
