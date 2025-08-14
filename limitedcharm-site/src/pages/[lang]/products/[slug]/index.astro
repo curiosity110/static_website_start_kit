@@ -3,6 +3,8 @@ import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import { SUPPORTED_LANGUAGES, DEFAULT_LANG, isLang } from '../../../../i18n/config';
 import product1 from '../../../../content/products/product-1.mdx';
 import product2 from '../../../../content/products/product-2.mdx';
+import { Image } from 'astro:assets';
+import fallbackImg from '../../../../assets/fallback1.png';
 
 const allProducts = [product1, product2].filter(Boolean);
 
@@ -26,10 +28,13 @@ if (!isLang(lang)) {
 }
 
 const { product = {}, Content } = Astro.props;
+const imageSrc = product.image
+  ? (await import(/* @vite-ignore */ new URL(product.image, new URL('../../../../content/products/', import.meta.url)).pathname)).default
+  : fallbackImg;
 ---
 <BaseLayout lang={lang} title={product?.title ?? ''} description={product?.description ?? ''}>
   <article class="max-w-3xl mx-auto py-12">
-    <img src={product?.image ?? '/assets/fallback1.png'} alt={product?.title ?? ''} width="600" height="600" class="mb-4 rounded" />
+    <Image src={imageSrc} alt={product?.title ?? ''} width={600} height={600} format={['avif','webp']} sizes="(max-width: 600px) 100vw, 600px" class="mb-4 rounded" />
     <h1 class="text-3xl font-bold mb-4">{product?.title ?? ''}</h1>
     <p class="mb-4">{product?.short ?? ''}</p>
     {Content ? <Content /> : null}

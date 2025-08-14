@@ -30,12 +30,14 @@ const dict = getDictionary(lang) ?? {};
 const rawProducts = [product1?.frontmatter, product2?.frontmatter].filter(Boolean);
 
 // Map products and ensure images are always defined
-const products = rawProducts.map((p, i) => ({
-  ...p,
-  image: p?.image
-    ? new URL(p.image, import.meta.url).pathname
-    : (i === 0 ? fallback1 : fallback2)
-}));
+const products = await Promise.all(
+  rawProducts.map(async (p, i) => ({
+    ...p,
+    image: p?.image
+      ? (await import(/* @vite-ignore */ p.image)).default
+      : (i === 0 ? fallback1 : fallback2)
+  }))
+);
 
 const stats = [
   { label: dict?.stats?.years ?? '', value: '5+' },

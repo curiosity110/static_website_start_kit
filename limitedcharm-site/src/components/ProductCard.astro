@@ -1,10 +1,12 @@
 ---
 import type { Lang } from '../i18n/config';
+import { Image } from 'astro:assets';
+import fallbackImg from '../assets/fallback1.png';
 
 interface Props {
   title?: string;
   description?: string;
-  image?: string;
+  image?: unknown;
   short?: string;
   price?: string;
   price_old?: string;
@@ -23,10 +25,10 @@ const {
   lang
 } = Astro.props as Props;
 
-const imageSrc = image ?? '/assets/fallback1.png';
+const imageSrc = image ?? fallbackImg;
 ---
 <article class="border p-4 flex flex-col">
-  <img src={imageSrc} alt={title} width="300" height="300" loading="lazy" class="mb-4 rounded" />
+  <Image src={imageSrc} alt={title} width={300} height={300} format={['avif','webp']} sizes="(max-width: 300px) 100vw, 300px" class="mb-4 rounded" />
   <h3 class="text-xl font-semibold mb-2">{title}</h3>
   {description && <p class="mb-2">{description}</p>}
   <p class="mb-4">{short}</p>
