@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Hero from '../../components/Hero.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import Stats from '../../components/Stats.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
 import { getDictionary } from '../../i18n/dict';
 import { SUPPORTED_LANGUAGES, DEFAULT_LANG, isLang } from '../../i18n/config';
 import product1 from '../../content/products/product-1.mdx';
@@ -28,7 +29,8 @@ const stats = [
 const heroImage = 'https://via.placeholder.com/960x400';
 ---
 <BaseLayout lang={lang} title="Home" description="">
-  <Hero lang={lang} image={heroImage} />
+  <Hero lang={lang} image={heroImage} ctaHref="#products" />
+
   <section class="py-12">
     <div class="max-w-4xl mx-auto text-center">
       <h2 class="text-2xl font-bold mb-6">{dict.about.heading}</h2>
@@ -37,7 +39,8 @@ const heroImage = 'https://via.placeholder.com/960x400';
       </ul>
     </div>
   </section>
-  <section class="py-12">
+
+  <section id="products" class="py-12">
     <h2 class="text-2xl text-center font-bold mb-6">{dict.nav.products}</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
       {products.map((p) => (
@@ -45,5 +48,10 @@ const heroImage = 'https://via.placeholder.com/960x400';
       ))}
     </div>
   </section>
+
   <Stats stats={stats} />
+
+  <section id="contact" class="py-12">
+    <ContactBlock lang={lang} />
+  </section>
 </BaseLayout>
