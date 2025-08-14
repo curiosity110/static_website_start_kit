@@ -1,49 +1,38 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Hero from '../../components/Hero.astro';
-import ProductCard from '../../components/ProductCard.astro';
-import Stats from '../../components/Stats.astro';
-import { getDictionary } from '../../i18n/dict';
-import { SUPPORTED_LANGUAGES, DEFAULT_LANG, isLang } from '../../i18n/config';
-import product1 from '../../content/products/product-1.mdx';
-import product2 from '../../content/products/product-2.mdx';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { SUPPORTED_LANGUAGES, DEFAULT_LANG, isLang } from '../../../i18n/config';
+import product1 from '../../../content/products/product-1.mdx';
+import product2 from '../../../content/products/product-2.mdx';
+
+const allProducts = [product1, product2];
 
 export function getStaticPaths() {
-  return SUPPORTED_LANGUAGES.map((lang) => ({ params: { lang } }));
+  const paths = [];
+  for (const prod of allProducts) {
+    for (const lang of SUPPORTED_LANGUAGES) {
+      paths.push({
+        params: { lang, slug: prod.frontmatter.slug },
+        props: { product: prod.frontmatter, Content: prod.default }
+      });
+    }
+  }
+  return paths;
 }
 
 const { lang } = Astro.params;
-
 if (!isLang(lang)) {
   throw Astro.redirect(`/${DEFAULT_LANG}/`);
 }
 
-const dict = getDictionary(lang);
-const products = [product1.frontmatter, product2.frontmatter];
-const stats = [
-  { label: dict.stats.years, value: '5+' },
-  { label: dict.stats.orders, value: '1500+' },
-  { label: dict.stats.satisfaction, value: '98%' }
-];
+const { product, Content } = Astro.props;
 ---
-<BaseLayout lang={lang} title="Home" description="">
+<BaseLayout lang={lang} title={product.title} description={product.description}>
+  <article class="max-w-3xl mx-auto py-12">
+    <img src={product.image} alt={product.title} width="600" height="600" class="mb-4 rounded" />
+    <h1 class="text-3xl font-bold mb-4">{product.title}</h1>
+    <p class="mb-4">{product.short}</p>
+    {/** Render MDX content */}
+    <Content />
+  </article>
 </BaseLayout>
-  <Hero lang={lang} />
-  <section class="py-12">
-    <div class="max-w-4xl mx-auto text-center">
-      <h2 class="text-2xl font-bold mb-6">{dict.about.heading}</h2>
-      <ul class="max-w-md mx-auto list-disc list-inside space-y-2 text-left">
-        {dict.about.benefits.map((b) => <li>{b}</li>)}
-      </ul>
-    </div>
-  </section>
-  <section class="py-12">
-    <h2 class="text-2xl text-center font-bold mb-6">{dict.nav.products}</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      {products.map((p) => (
-        <ProductCard lang={lang} {...p} />
-      ))}
-    </div>
-  </section>
-  <Stats stats={stats} />
-</BaseLayout>
+
