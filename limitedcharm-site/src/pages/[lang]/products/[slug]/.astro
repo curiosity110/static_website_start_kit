@@ -1,13 +1,14 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { SUPPORTED_LANGUAGES, DEFAULT_LANG, isLang } from '../../../i18n/config';
-import product1 from '../../../content/products/product-1.mdx';
-import product2 from '../../../content/products/product-2.mdx';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import { SUPPORTED_LANGUAGES, DEFAULT_LANG, isLang } from '../../../../i18n/config';
+import { getCollection } from 'astro:content';
 
-export function getStaticPaths() {
-  const products = [product1.frontmatter, product2.frontmatter];
+export async function getStaticPaths() {
+  const products = await getCollection('products');
   return SUPPORTED_LANGUAGES.flatMap((lang) =>
-    products.map((p) => ({ params: { lang, slug: p.slug } }))
+    products.map((p) => ({
+      params: { lang, slug: p.data.slug },
+    }))
   );
 }
 
@@ -17,14 +18,17 @@ if (!isLang(lang)) {
   throw Astro.redirect(`/${DEFAULT_LANG}/products`);
 }
 
-const product = [product1.frontmatter, product2.frontmatter].find((p) => p.slug === slug);
+const products = await getCollection('products');
+const product = products.find((p) => p.data.slug === slug);
+
 if (!product) {
   throw Astro.redirect(`/${lang}/products`);
 }
+
 ---
-<BaseLayout lang={lang} title={product.title} description="">
+<BaseLayout lang={lang} title={product.data.title} description={product.data.description}>
   <section class="p-8 text-center">
-    <h1 class="text-2xl font-bold mb-4">{product.title}</h1>
-    <p>{product.subtitle}</p>
+    <h1 class="text-2xl font-bold mb-4">{product.data.title}</h1>
+    <p>{product.data.subtitle}</p>
   </section>
 </BaseLayout>
