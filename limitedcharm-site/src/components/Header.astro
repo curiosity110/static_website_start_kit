@@ -1,18 +1,61 @@
 ---
 import { getDictionary } from '../i18n/dict';
+import { SUPPORTED_LANGUAGES } from '../i18n/config';
 import type { Lang } from '../i18n/config';
 
 interface Props { lang: Lang; }
-const { nav } = getDictionary(Astro.props.lang);
+const lang = Astro.props.lang;
+const { nav } = getDictionary(lang);
+const path = Astro.url.pathname;
+const suffix = path.replace(new RegExp(`^/${lang}`), '') || '/';
 ---
-<header class="p-4">
-  <nav>
-    <ul class="flex gap-4">
-      <li><a href={`/${Astro.props.lang}/`}>{nav.home}</a></li>
-      <li><a href={`/${Astro.props.lang}/products`}>{nav.products}</a></li>
-      <li><a href={`/${Astro.props.lang}/about`}>{nav.about}</a></li>
-      <li><a href={`/${Astro.props.lang}/faq`}>{nav.faq}</a></li>
-      <li><a href={`/${Astro.props.lang}/contact`}>{nav.contact}</a></li>
-    </ul>
-  </nav>
+<header class="border-b">
+  <div class="mx-auto flex max-w-screen-xl items-center justify-between p-4">
+    <a href={`/${lang}/`} class="min-w-[44px] min-h-[44px] flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2" aria-label="Home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20" class="h-5 w-auto">
+        <text x="0" y="15" font-size="15">Logo</text>
+      </svg>
+    </a>
+
+    <nav class="hidden md:block" aria-label="Primary">
+      <ul class="flex gap-4">
+        <li><a class="block px-3 py-2 min-w-[44px] min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2" href={`/${lang}/`}>{nav.home}</a></li>
+        <li><a class="block px-3 py-2 min-w-[44px] min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2" href={`/${lang}/products`}>{nav.products}</a></li>
+        <li><a class="block px-3 py-2 min-w-[44px] min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2" href={`/${lang}/about`}>{nav.about}</a></li>
+        <li><a class="block px-3 py-2 min-w-[44px] min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2" href={`/${lang}/faq`}>{nav.faq}</a></li>
+        <li><a class="block px-3 py-2 min-w-[44px] min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2" href={`/${lang}/contact`}>{nav.contact}</a></li>
+      </ul>
+    </nav>
+
+    <div class="hidden md:flex gap-2" aria-label="Language switcher">
+      {SUPPORTED_LANGUAGES.map((l) => (
+        <a href={`/${l}${suffix}`} class="block px-2 py-2 min-w-[44px] min-h-[44px] flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{l.toUpperCase()}</a>
+      ))}
+    </div>
+
+    <details class="md:hidden">
+      <summary class="list-none cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" class="h-6 w-6">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+        <span class="sr-only">Menu</span>
+      </summary>
+      <nav class="mt-2" aria-label="Mobile primary">
+        <ul class="flex flex-col gap-2">
+          <li><a class="block px-3 py-2 min-w-[44px] min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2" href={`/${lang}/`}>{nav.home}</a></li>
+          <li><a class="block px-3 py-2 min-w-[44px] min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2" href={`/${lang}/products`}>{nav.products}</a></li>
+          <li><a class="block px-3 py-2 min-w-[44px] min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2" href={`/${lang}/about`}>{nav.about}</a></li>
+          <li><a class="block px-3 py-2 min-w-[44px] min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2" href={`/${lang}/faq`}>{nav.faq}</a></li>
+          <li><a class="block px-3 py-2 min-w-[44px] min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2" href={`/${lang}/contact`}>{nav.contact}</a></li>
+        </ul>
+        <div class="mt-2 flex gap-2" aria-label="Language switcher">
+          {SUPPORTED_LANGUAGES.map((l) => (
+            <a href={`/${l}${suffix}`} class="block px-2 py-2 min-w-[44px] min-h-[44px] flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{l.toUpperCase()}</a>
+          ))}
+        </div>
+      </nav>
+    </details>
+  </div>
 </header>
