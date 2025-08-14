@@ -25,9 +25,10 @@ const stats = [
   { label: dict.stats.orders, value: '1500+' },
   { label: dict.stats.satisfaction, value: '98%' }
 ];
+const heroImage = 'https://via.placeholder.com/960x400';
 ---
 <BaseLayout lang={lang} title="Home" description="">
-  <Hero lang={lang} />
+  <Hero lang={lang} image={heroImage} />
   <section class="py-12">
     <div class="max-w-4xl mx-auto text-center">
       <h2 class="text-2xl font-bold mb-6">{dict.about.heading}</h2>
