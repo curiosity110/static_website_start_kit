@@ -2,8 +2,6 @@ import type { Lang } from './config';
 
 export type SectionDict = {
   nav: { home: string; products: string; about: string; faq: string; contact: string; legal: string };
-  hero: { title: string; subtitle: string };
-  about: { heading: string };
   hero: { title: string; subtitle: string; cta: string };
   about: { heading: string; benefits: string[] };
   stats: { years: string; orders: string; satisfaction: string };
@@ -15,8 +13,6 @@ export type SectionDict = {
 export const dictionaries: Record<Lang, SectionDict> = {
   mk: {
     nav: { home: 'Почетна', products: 'Производи', about: 'За нас', faq: 'ЧПП', contact: 'Контакт', legal: 'Правни' },
-    hero: { title: 'Добредојдовте', subtitle: 'Празен херој' },
-    about: { heading: 'За нас' },
     hero: {
       title: 'Природни додатоци и креми',
       subtitle: 'Подобрете го вашето здравје со нашите додатоци во исхраната и природни креми.',
@@ -33,8 +29,6 @@ export const dictionaries: Record<Lang, SectionDict> = {
   },
   en: {
     nav: { home: 'Home', products: 'Products', about: 'About', faq: 'FAQ', contact: 'Contact', legal: 'Legal' },
-    hero: { title: 'Welcome', subtitle: 'Simple hero' },
-    about: { heading: 'About Us' },
     hero: {
       title: 'Natural Supplements & Creams',
       subtitle: 'Enhance your wellbeing with our dietary supplements and natural creams crafted from quality ingredients.',
@@ -51,8 +45,6 @@ export const dictionaries: Record<Lang, SectionDict> = {
   },
   sq: {
     nav: { home: 'Ballina', products: 'Produkte', about: 'Rreth nesh', faq: 'FAQ', contact: 'Kontakt', legal: 'Ligjore' },
-    hero: { title: 'Mirë se vini', subtitle: 'Hero i thjeshtë' },
-    about: { heading: 'Rreth Nesh' },
     hero: {
       title: 'Suplementet dhe Kremrat Natyral',
       subtitle: 'Përmirësoni mirëqenien me suplementet ushqimore dhe kremrat natyral të përzgjedhur me kujdes.',
