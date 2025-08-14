@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Hero from '../../components/Hero.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import Stats from '../../components/Stats.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
 import { getDictionary } from '../../i18n/dict';
 import { SUPPORTED_LANGUAGES, DEFAULT_LANG, isLang } from '../../i18n/config';
 import product1 from '../../content/products/product-1.mdx';
@@ -69,4 +70,7 @@ const stats = [
 
   <!-- Stats Section -->
   <Stats stats={stats} />
+
+  <!-- Contact Section -->
+  <ContactBlock lang={lang} />
 </BaseLayout>
